@@ -1,0 +1,91 @@
+package com.example.dotsandboxes_deltat2;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.Toast;
+
+public class Gameplay extends AppCompatActivity {
+    private static final String TAG="MyActivity";
+    int in=0; //to draw the grid before game starts
+    float x,y; //coordinates of the touch point
+    int p,q; // no of players and grid value
+    View g;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+
+        Intent intent = getIntent();                                                            //
+         p = intent.getIntExtra(Multi.EXTRA_P, 0);
+         q = intent.getIntExtra(Multi.EXTRA_Q, 0);
+
+
+        Log.w(TAG,"ASDF 100");
+
+
+
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_gameplay);
+
+        g=(View)findViewById(R.id.g);
+
+        if(in==0) {
+            new Games(p, q, in);
+            in++;
+        }
+        else{
+            function();
+        }
+    }
+
+
+    private void function(){
+        Log.w(TAG,"QWERTY 1");
+        int i,j;
+        int va = (180 * 4) / (q - 1);
+
+        g.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                x=event.getX();
+                y=event.getY();
+
+                return false;
+            }
+        });
+
+        int c1=Math.round(x);
+        int c2=Math.round(y);
+        int a,b;
+
+        for(i=1;i<q;i++){
+            int a1=30+(va*i);
+            int a2=30+(va*(i-1));
+            for(j=0;j<q-1;j++){
+                int b1=30+(va*j);
+                int b2=30+(va*(j-1));
+
+                if(c1>a2&&c1<a1&&((c2>b2+30)|(c2>b2-30))&&((c2<b1+30)|(c2<b1-30))){
+
+                    new Games(p,q,a1,b1,a2,b2,in);
+
+                }
+            }
+        }
+
+
+
+    }
+
+
+
+
+
+
+}

@@ -1,0 +1,206 @@
+package com.example.dotsandboxes_deltat2;
+
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.os.Bundle;
+import android.os.Parcelable;
+import android.util.AttributeSet;
+import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
+import android.content.SharedPreferences;
+import android.widget.LinearLayout;
+
+
+class Example {
+
+    public static int a;
+    public static int b;
+    public static int ab;
+    public static int x1;
+    public static int y1;
+    public static int x2;
+    public static int y2;
+
+}
+
+class Games {
+
+    private static final String TAG = "MyActivity";
+
+
+    public Games(int x,int y,int in) {
+        Log.w(TAG,"ASDF 1");
+
+        Example.a = x;
+        Example.b = y;
+        Example.ab = in;
+
+    }
+    public Games(int x,int y,int x1,int y1,int x2,int y2,int in){
+
+        Example.a = x;
+        Example.b = y;
+        Example.ab = in;
+        Example.x1 = x1;
+        Example.y1 = y1;
+        Example.x2 = x2;
+        Example.y2 = y2;
+
+
+    }
+}
+
+
+
+
+public class Game extends View {
+
+    View g;
+    int[][] a=new int[10][10];//GRID ARRAY HORIZONTAL
+    int[][] b=new int[10][10];//GRID ARRAY VERTICAL
+    int hc=0,vc=0;
+    int dummy=0;
+    int x,y;
+    int t=Example.a,u=Example.b;
+    int p,q;
+
+    float dc[];
+    float xc,yc;
+
+
+
+
+    String s1,s2;
+
+
+    private static final String TAG="MyActivity";
+
+
+
+    public Game(Context context) {
+
+
+        super(context);
+        Log.w(TAG,"ASDF 2");
+        init(context);
+    }
+
+    public Game(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        Log.w(TAG,"ASDF 3");
+        init(context);
+
+    }
+
+    public Game(Context context, AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
+        Log.w(TAG,"ASDF 4");
+        init(context);
+
+    }
+
+
+    private void init(Context context) {
+        Log.w(TAG,"ASDF 5");
+
+
+
+
+
+
+    }
+
+
+
+
+
+    protected void onDraw(Canvas canvas) {
+        Log.w(TAG, "ASDF 6"+Example.b);
+        super.onDraw(canvas);
+
+        t = Example.a;
+        u = Example.b;
+        int va = (180 * 4) / (u - 1);
+        Paint paint = new Paint();
+        if(Example.ab==0) {
+            int i, j;
+
+
+            paint.setColor(Color.parseColor("#C0C0C0"));
+            paint.setStrokeWidth(15);
+            //drawing lines intially
+            for (i = 0; i < u; i++) {
+                canvas.drawLine(30, 30 + (va * i), 930, 30 + (va * i), paint);
+
+            }
+            for (i = 0; i < u; i++) {
+                canvas.drawLine(30 + (va * i), 30, 30 + (va * i), 930, paint);
+
+            }
+
+            //drawing circles initially
+            paint.setColor(Color.parseColor("#FFFFFF"));
+            for (i = 0; i < u; i++) {
+                for (j = 0; j < u; j++) {
+                    canvas.drawCircle(30 + (va * i), 30 + (va * j), 30, paint);
+                }
+            }
+
+        }
+
+        //redrawing the grid with the points the user touched
+        else{
+            Log.w(TAG,"QWERTY 2");
+            g=(View)findViewById(R.id.g);
+            g.invalidate();
+            int x11=Example.x1;
+            int y1=Example.y1;
+            int x22=Example.x2;
+            int y2=Example.y2;
+
+            for(int i=1;i<q;i++){
+                int a1=30+(va*i);
+                int a2=30+(va*(i-1));
+                for(int j=0;j<q-1;j++){
+                    int b1=30+(va*j);
+                    int b2=30+(va*(j-1));
+
+                    if(a1==x11 && a2==x22 && b1==y1 && b2==y2 ){
+
+                        paint.setColor(Color.parseColor("#FF0000"));
+                        canvas.drawLine(a2,b2,a1,b1,paint);
+
+                    }
+                    else{
+                        paint.setColor(Color.parseColor("#C0C0C0"));
+                        canvas.drawLine(a2,b2,a1,b1,paint);
+
+                    }
+                }
+            }
+
+
+
+
+
+
+        }
+
+
+
+
+
+
+
+    }
+
+
+
+
+
+
+}
